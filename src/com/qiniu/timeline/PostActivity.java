@@ -84,6 +84,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
 			@Override
 			public void onProcess(long current, long total) {
 				pb.setProgress((int) (current*100/total));
+				hint.setText("uploading: " + strfsize(current) + "/" + strfsize(total));
 			}
 
 			@Override
@@ -97,4 +98,18 @@ public class PostActivity extends Activity implements View.OnClickListener {
 		});
 	}
 
+	public String strfsize(float size) {
+		String[] unit = new String[] {"B", "K", "M", "G"};
+		int unitLevel = 0;
+		while (size >= 1024) {
+			unitLevel ++;
+			if (size < 1024*1024) {
+				size = (size/1024);
+				break;
+			}
+			size /= 1024;
+		}
+		if (unitLevel <= 1) return (int) size + unit[unitLevel];
+		return String.format("%.2f%s", size, unit[unitLevel]);
+	}
 }

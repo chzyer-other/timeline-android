@@ -3,7 +3,6 @@ package com.qiniu.timeline;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -22,7 +21,7 @@ public class ResourceItem extends RelativeLayout {
 	TextView date;
 	TextView desc;
 	ImageView preview;
-	static LruCache<String, Bitmap> mMemoryCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / 1024)/8) {
+	static LruCache<String, Bitmap> mMemoryCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory()/1024/4)) {
 		@Override
 		protected int sizeOf(String key, Bitmap bitmap) {
 			return bitmap.getRowBytes() * bitmap.getHeight() / 1024;
@@ -43,12 +42,12 @@ public class ResourceItem extends RelativeLayout {
 		super(context, attrs);
 	}
 
-	public void showData(JSONObject data) {
+	public void showData(JSONObject data, int width) {
 		mData = data;
 		user.setText(data.optString("user"));
 		date.setText(data.optString("date"));
 		desc.setText(data.optString("desc"));
-		final String url = data.optString("url");
+		final String url = data.optString("url") + "?imageView/2/w/" + width;
 		if (data.optString("mime").indexOf("image") >= 0) {
 			Bitmap bm = mMemoryCache.get(url);
 			if (bm != null) {

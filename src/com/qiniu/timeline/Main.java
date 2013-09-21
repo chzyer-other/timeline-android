@@ -2,7 +2,9 @@ package com.qiniu.timeline;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -122,12 +124,23 @@ public class Main extends Activity implements View.OnClickListener{
 				return v;
 			}
 			ResourceItem item = new ResourceItem(Main.this);
-			item.showData(mList.get(i));
+			item.showData(mList.get(i), getMaxPicWidth());
 			return item;
 		}
 	}
 
 	private void toast(String str) {
 		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+	}
+
+	public int getMaxPicWidth() {
+
+		return getWindowManager().getDefaultDisplay().getWidth() - dpToPx(16);
+	}
+
+	public int dpToPx(int dp) {
+		DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+		int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+		return px;
 	}
 }

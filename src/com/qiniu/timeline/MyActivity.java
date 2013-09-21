@@ -26,7 +26,7 @@ public class MyActivity extends Activity implements View.OnClickListener {
 		initWidget();
 		edtUsername.setText("chzyer_android");
 		edtPassword.setText("adf");
-		onClick(btnLogin);
+//		onClick(btnLogin);
 	}
 
 	private void initWidget() {
